@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # aws-dev-study-plan
 =======
 # AWS Dev Study Plan 🚀
@@ -45,4 +44,4 @@ Each week has **quests** (tasks), XP points, and badges 🎖️.
 - ✅ Architecture diagram  
 - ✅ Final demo deployment  
 - ✅ Mock exam results
->>>>>>> 3e4d77d (initial commit: study template)
+
