@@ -56,5 +56,41 @@ docker run -d -p 80:<correct port> weather-backend
 
 curl http://localhost/api/hello
 
+# on mac
+curl "http://3.110.28.176/api/getweather?city=kochi" #quotes so zshell doesn't misinterpret 
 
 
+# https issue. vercel uses https, need to serve backend over https
+
+# Update package list
+sudo apt update
+
+# Download & install cloudflared
+curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb
+sudo dpkg -i cloudflared.deb
+
+# Verify
+cloudflared --version
+
+cloudflared tunnel login
+
+cloudflared tunnel --url http://localhost:80
+
+#copy the on-demand domain name and add to env under API_URL
+
+#this is what is happening:
+
+Internet (Vercel/Browser over HTTPS)
+        │
+        ▼
+Cloudflare Tunnel (cloudflared on EC2)
+        │  (targets host port 80)
+        ▼
+EC2 Host :80  ──► Docker NAT mapping ──► Container :5001
+                        (-p 80:5001)
+        │                                   │
+        │                                   ▼
+        │                         Node/Express listening on 5001
+        └────────────────────────────────────────────────────────
+
+#vercel is adding unnecessary complications. will stick to hosting the frontend locally on mac. therefore avoiding the whole cloudflare nonsense
