@@ -28,3 +28,33 @@ docker push your-dockerhub-username/weather-backend
 #Run on EC2
 sudo docker run -d -p 80:3001 your-dockerhub-username/weather-backend
 
+
+#this will result in arm vs amd architechture mismatch coz built in mac and trying
+#trying to run in amd linux. so build in ec2
+
+sudo apt update && sudo apt install -y git
+git clone https://github.com/<your-username>/<your-backend-repo>.git
+cd <your-backend-repo>
+
+sudo docker build -t weather-backend .
+sudo docker run -d -p 80:5000 weather-backend
+
+curl http://localhost/api/hello
+
+#if curl fails, port mapping could be issue. check logs
+
+docker ps -a 			# check docker container id
+docker logs <id>
+
+# verify the ports are different. stop and kill container
+
+docker stop <id>
+docker rm <id>
+
+
+docker run -d -p 80:<correct port> weather-backend
+
+curl http://localhost/api/hello
+
+
+
