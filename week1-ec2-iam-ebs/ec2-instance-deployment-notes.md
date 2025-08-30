@@ -94,3 +94,38 @@ EC2 Host :80  ──► Docker NAT mapping ──► Container :5001
         └────────────────────────────────────────────────────────
 
 #vercel is adding unnecessary complications. will stick to hosting the frontend locally on mac. therefore avoiding the whole cloudflare nonsense
+
+#removed Docker from workflow. which arises another issue ie keeping server alive even after the ssh session has ended. Use pm2 which is the industry standard for node deployments
+
+cd /home/ubuntu/how-is-your-day/backend
+sudo npm install -g pm2
+pm2 start server.js --name weather-api
+pm2 save
+sudo pm2 startup
+
+#works!
+
+#serving frontend also in the same instance
+
+frontend$ npm run build # creates a dist folder to host
+
+#Add this to your server.js (before your API routes):
+const path = require('path');
+
+// Serve static files from React build
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// the following at LAST after all api routes
+// Handle React routing (add this AFTER all API routes)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
+
+
+cd ~/how-is-your-day/backend
+pm2 restart weather-api
+
+Frontend: http://3.110.28.176:5001/
+API: http://3.110.28.176:5001/api/health
