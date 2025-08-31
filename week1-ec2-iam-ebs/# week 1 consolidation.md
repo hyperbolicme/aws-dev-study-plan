@@ -92,7 +92,7 @@ app.get('*', (req, res) => {
 
 # Hosted URLs
 
-Frontend: http://<ec2 ip>:5001/
-API: http://<ec2 ip>:5001/api/health
+Frontend: http://ec2_ip:5001/
+API: http://ec2_ip:5001/api/health
 
 change 5001 to whatever port server is listening on, if needed.
