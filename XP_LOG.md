@@ -2,9 +2,9 @@
 
 Track weekly XP earned and badges.
 
-| Week | XP Earned | Badge |
-|------|-----------|-------|
-| 1    | 150/200   | –     |
+| Week | XP Earned | Badge        |
+|------|-----------|--------------|
+| 1    | 200/200   |  Adventurer  |
 | 2    | 0/200     | –     |
 | 3    | 0/250     | –     |
 | 4    | 0/250     | –     |
