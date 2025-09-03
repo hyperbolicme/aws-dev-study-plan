@@ -132,7 +132,89 @@ ubuntu@ip-172-31-13-101:~$
 * Key lesson learned: AWS CLI is case-sensitive 
 
 
+## using the SDK
+
+- install SDK in the development environment.
+
+cd ~/how-is-your-day/backend
+npm install aws-sdk
+
+anju@192 backend % npm install aws-sdk
+npm warn deprecated querystring@0.2.0: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
+
+added 31 packages, and audited 389 packages in 2s
+
+63 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+anju@192 backend %
+
+## creating api endpoints for report generation
+
+### api/generate-report 
+
+was coded and not committed to git waiting to be tested. however test shows error
+
+browser address: 
+http://localhost:5001/api/generate-report
+result: 
+{"success":false,"error":"Internal server error"}
+
+however, api/health returns success. so server is up but new endpoint fails.
+
+i am assuming this is because it is not running on ec2 which has a role to access this object. others do not have perms. however i don't know if it even got to that point.
+
+also, server logs this error multiple times
+Unhandled error: [Error: ENOENT: no such file or directory, stat '/Users/anju/Desktop/code/projects/how-is-your-day/frontend/dist/index.html'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/anju/Desktop/code/projects/how-is-your-day/frontend/dist/index.html',
+  expose: false,
+  statusCode: 404,
+  status: 404
+}
+
+- build frontend to avoid  index.html missing comment
+
+- curl and browser window by default use GET whereas this is a POST endpoint. so :
+
+anju@192 week2 % curl -X POST http://localhost:5001/api/generate-report \
+     -H "Content-Type: application/json" \
+     -d '{"city": "Mumbai"}'
+{"success":true,"message":"Daily report generated and stored successfully!","report":{"filename":"mumbai-2025-09-02-1756823610.json","city":"Mumbai","date":"2025-09-02","generated_at":"2025-09-02T14:33:30.946Z","size_bytes":1273,"storage":{"location":"Local","local_path":"/Users/anju/Desktop/code/projects/how-is-your-day/backend/local-reports/mumbai-2025-09-02-1756823610.json","note":"AWS credentials not available - saved to local filesystem"}},"preview":{"current_temp":"27.08°C","weather_desc":"overcast clouds","top_headline":"No news available","forecast_items":8,"news_items":0}}%                                   
+anju@192 week2 % 
+
+- on ec2 it didn't work due to some sdk v2 issue. upgrated to sdk v3. first on dev and tested locally. then on ec2
+
+ubuntu@ip-172-31-13-101:~/how-is-your-day/backend$ npm install
+
+added 102 packages, removed 29 packages, changed 4 packages, and audited 461 packages in 4s
+
+52 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+ubuntu@ip-172-31-13-101:~/how-is-your-day/backend$ nano package.json 
+ubuntu@ip-172-31-13-101:~/how-is-your-day/backend$ npm list @aws-sdk/client-s3
+weather-news-api@1.0.0 /home/ubuntu/how-is-your-day/backend
+└── @aws-sdk/client-s3@3.879.0
+
+- backend works.
+- made frontend changes for reports
+- did some minor formatting edits in ui. there was a bug in backend which was always searching for india news. fixed
 
 
 
+# You've successfully built a complete S3-powered report system with:
 
+- S3 bucket creation and configuration
+- AWS SDK v3 integration with proper fallback handling
+- Report generation API storing comprehensive weather + news data
+- Frontend report generation with success/error states
+- Report listing endpoint with metadata parsing
+- Individual report retrieval from S3/local storage
+- PDF generation and download functionality
+- Clean navigation between main app and reports page
