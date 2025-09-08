@@ -11,7 +11,8 @@ backend refactored from a single 800+ line file to logically separated 25 files.
 
 - create a bucket. we will use "how-is-your-day-frontend-hyperbolicme" with Block All Public access checkbox unchecked under Permissions so that it can be opened for public access. this option when checked overrides any public access iirc.
 - add a bucket policy to Allow all (asterix) S3 Get Object access to all objects in the above bucket via policy generator
-```json {
+```json 
+{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -60,6 +61,8 @@ aws s3 ls s3://how-is-your-day-frontend-hyperbolicme/
 - view the webapp at the s3 bucket url - http://how-is-your-day-frontend-hyperbolicme.s3-website.ap-south-1.amazonaws.com
 
 -- we got some CORS issue here because the expected traffic at the api endpoints is not expected from amazonaws.com
+
+# CDN using CloudFront
 
 - create a CloudFront distribution with origin as the s3 static website and protocol as HTTP only. takes a few minutes to deploy
 ```bash
