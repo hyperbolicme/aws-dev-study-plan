@@ -43,18 +43,21 @@ first time. for updates, `git pull origin main`
 
 Add this to your server.js (BEFORE your API routes):
 
-`const path = require('path');`
-
-`// Serve static files from React build
-app.use(express.static(path.join(__dirname, '../frontend/dist')));`
+```javascript
+const path = require('path');
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+```
 
 Add this AFTER all route definitions
 
-`// the following at LAST after all api routes
+```javascript
+// the following at LAST after all api routes
 // Handle React routing (add this AFTER all API routes)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-});`
+});
+```
 
 
 ### Build frontend
@@ -63,11 +66,15 @@ in .env give ip:port of server. then build.
 
 ex:
 
-`VITE_API_BASE_URL=http://3.110.28.176:5001`
+```bash
+VITE_API_BASE_URL=http://3.110.28.176:5001
+```
 
 build:
 
-`cd frontend && npm run build`
+```bash
+cd frontend && npm run build
+```
 
 ### Start backend with PM2
 
