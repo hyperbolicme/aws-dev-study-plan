@@ -26,3 +26,4 @@ etc. bucket structure: weather-app-reports/reports/default_user/x.json. name is 
 
 # CloudFront 
 - create a bucket put frontend in it. can host from static webhosting in s3 option. but for CDN, create a cloudfront distribution. point origin to the s3 bucket. issue is CDN uses https so apis must also be called over https but backend is not hosted on https. it is an infra logistic process concern. so leaving it as is.
+when the frontend is moved to s3 or CDN it is important to add their domains into cors so that traffic is accpeted by app.
